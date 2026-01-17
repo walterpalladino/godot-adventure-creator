@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cm2fhg234ubmi"]
 
-[ext_resource type="Script" uid="uid://dwhg10c4qgbyi" path="res://assets/adventure-creator/scripts/adventure-creator.gd" id="1_r1y4l"]
+[ext_resource type="Script" uid="uid://dwhg10c4qgbyi" path="res://assets/adventure-creator/scripts/main.gd" id="1_r1y4l"]
 
 [node name="AdventureCreatorTest" type="Control"]
 layout_mode = 3

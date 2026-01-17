@@ -16,8 +16,19 @@ func get_all_items() -> Array:
 func has_item(item_name: String) -> bool:
 	return item_name in item_uses
 
-func can_item_be_used_for(item_name: String, use: String) -> bool:
+func can_item_be_used_for(item_name: String, uses: Array) -> bool:
 	if not has_item(item_name):
 		return false
-	return use in item_uses[item_name]
+		
+	return item_uses[item_name].any(func(use): return uses.has(use))	
 	
+	
+func get_items_used_for(uses: Array) -> Array:
+
+	var item_keys : Array = []
+
+	for item in item_uses:
+		if can_item_be_used_for(item, uses):
+			item_keys.append(item)
+
+	return item_keys
