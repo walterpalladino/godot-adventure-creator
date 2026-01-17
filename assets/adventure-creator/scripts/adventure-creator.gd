@@ -6,23 +6,119 @@ const MAX_GENERATION_ATTEMPTS = 10
 
 # Objective types and their possible goals
 var objective_templates = {
-	"find_item": ["Ancient Amulet", "Golden Key", "Sacred Scroll", "Crystal Orb", "Magic Ring"],
-	"rescue": ["Princess Elena", "Professor Smith", "Lost Child", "Captured Knight", "Village Elder"],
-	"activate": ["Ancient Portal", "Mystical Fountain", "Sacred Altar", "Power Generator", "Time Machine"]
+	"find_item": [
+		"Ancient Amulet", "Golden Key", "Sacred Scroll", "Crystal Orb", "Magic Ring",
+		"Diamond Crown", "Philosopher's Stone", "Holy Grail", "Enchanted Sword", "Dragon Egg",
+		"Star Map", "Lost Treasure", "Royal Scepter", "Mystic Compass", "Ancient Manuscript",
+		"Cursed Idol", "Silver Chalice", "Emerald Tablet", "Phoenix Feather", "Moon Crystal"
+	],
+	"rescue": [
+		"Princess Elena", "Professor Smith", "Lost Child", "Captured Knight", "Village Elder",
+		"Duke Wellington", "Lady Blackwood", "Captain Rivers", "Oracle Maya", "Prince Adrian",
+		"Scholar Thomas", "Merchant Anna", "Wizard Merlin", "Healer Catherine", "Explorer Jack",
+		"Queen Isabella", "Astronomer Leo", "Botanist Rosa", "Guard Captain Marcus", "Diplomat Chen"
+	],
+	"activate": [
+		"Ancient Portal", "Mystical Fountain", "Sacred Altar", "Power Generator", "Time Machine",
+		"Crystal Conduit", "Dimensional Gate", "Eternal Flame", "Star Observatory", "Magic Circle",
+		"Weather Control", "Teleporter", "Memory Archive", "Healing Spring", "Prophecy Stone",
+		"Guardian Statue", "Energy Core", "Cosmic Beacon", "Spirit Shrine", "Warp Device"
+	],
+	"destroy": [
+		"Cursed Artifact", "Dark Crystal", "Evil Tome", "Shadow Gate", "Plague Source",
+		"Demon Seal", "Corrupted Core", "Nightmare Engine", "Void Anchor", "Chaos Orb"
+	],
+	"escape": [
+		"Haunted Mansion", "Underground Dungeon", "Cursed Castle", "Frozen Fortress", "Lost Temple",
+		"Abandoned Asylum", "Desert Tomb", "Sunken Ship", "Sky Prison", "Volcano Lair"
+	]
 }
 
 # Item uses dictionary
 var item_uses = {
 	"rusty_key": ["unlock_door", "pry_open"],
-	"torch": ["light_area", "burn"],
-	"rope": ["climb", "tie"],
-	"crowbar": ["pry_open", "break"],
-	"passcode": ["unlock_door"],
-	"map": ["reveal_path"],
-	"potion": ["heal", "unlock_magic"],
-	"gem": ["activate", "power_source"],
-	"lever": ["activate"],
-	"note": ["reveal_clue"]
+	"golden_key": ["unlock_door", "unlock_chest"],
+	"silver_key": ["unlock_door", "unlock_gate"],
+	"master_key": ["unlock_door", "unlock_vault"],
+	"skeleton_key": ["unlock_door", "unlock_any"],
+	"torch": ["light_area", "burn", "scare_bats"],
+	"lantern": ["light_area", "signal"],
+	"candle": ["light_area", "melt_wax"],
+	"rope": ["climb", "tie", "swing"],
+	"chain": ["tie", "lock", "climb"],
+	"grappling_hook": ["climb", "reach_high"],
+	"crowbar": ["pry_open", "break", "lever"],
+	"hammer": ["break", "repair", "pound"],
+	"pickaxe": ["break", "mine", "dig"],
+	"shovel": ["dig", "break_ground"],
+	"passcode": ["unlock_door", "access_computer"],
+	"id_card": ["unlock_door", "identify"],
+	"keycard": ["unlock_door", "access_restricted"],
+	"map": ["reveal_path", "navigate"],
+	"compass": ["navigate", "find_north"],
+	"telescope": ["see_far", "observe"],
+	"potion": ["heal", "unlock_magic", "enhance"],
+	"elixir": ["heal", "cure", "energize"],
+	"antidote": ["cure", "neutralize_poison"],
+	"gem": ["activate", "power_source", "unlock_magic"],
+	"ruby": ["activate", "power_fire"],
+	"sapphire": ["activate", "power_water"],
+	"emerald": ["activate", "power_nature"],
+	"diamond": ["activate", "power_light", "cut"],
+	"crystal": ["activate", "power_source", "focus"],
+	"lever": ["activate", "switch", "move"],
+	"button": ["activate", "trigger"],
+	"switch": ["activate", "toggle"],
+	"note": ["reveal_clue", "read"],
+	"journal": ["reveal_clue", "read", "learn"],
+	"book": ["reveal_clue", "read", "learn_spell"],
+	"scroll": ["reveal_clue", "read", "cast"],
+	"letter": ["reveal_clue", "read"],
+	"coin": ["currency", "insert", "weight"],
+	"gold_bar": ["currency", "weight", "bribe"],
+	"mirror": ["reflect", "see_truth", "signal"],
+	"glass_shard": ["cut", "reflect"],
+	"matches": ["light", "burn"],
+	"flint": ["light", "spark"],
+	"lockpick": ["unlock_door", "unlock_chest"],
+	"wire": ["unlock_door", "tie", "conduct"],
+	"magnet": ["attract", "pull", "collect"],
+	"glue": ["stick", "repair", "seal"],
+	"oil": ["lubricate", "burn", "slip"],
+	"water_flask": ["drink", "pour", "extinguish"],
+	"food_ration": ["eat", "restore_energy"],
+	"medicine": ["heal", "cure"],
+	"bandage": ["heal", "wrap"],
+	"shield": ["protect", "block", "deflect"],
+	"sword": ["cut", "fight", "lever"],
+	"dagger": ["cut", "throw", "pry"],
+	"staff": ["focus_magic", "support", "fight"],
+	"wand": ["cast_spell", "point", "channel"],
+	"amulet": ["protect", "unlock_magic", "detect"],
+	"ring": ["unlock_magic", "enchant", "protect"],
+	"cloak": ["hide", "protect_cold", "disguise"],
+	"boots": ["walk_silent", "climb", "run_fast"],
+	"gloves": ["protect_hands", "grip", "climb"],
+	"helmet": ["protect", "see_dark"],
+	"goggles": ["see_underwater", "protect_eyes"],
+	"bag": ["carry_more", "store"],
+	"chest": ["store", "transport"],
+	"hourglass": ["measure_time", "activate"],
+	"bell": ["signal", "ward_evil", "call"],
+	"horn": ["signal", "call", "blow"],
+	"flute": ["play_music", "charm", "signal"],
+	"prism": ["split_light", "reveal", "focus"],
+	"lens": ["magnify", "focus_light", "see_detail"],
+	"thermometer": ["measure_temp", "detect"],
+	"barometer": ["measure_pressure", "predict"],
+	"sextant": ["navigate", "measure_angle"],
+	"chisel": ["carve", "break", "shape"],
+	"saw": ["cut", "break", "shape"],
+	"drill": ["bore", "break", "pierce"],
+	"paint": ["mark", "color", "seal"],
+	"chalk": ["mark", "draw", "write"],
+	"ink": ["write", "mark", "stain"],
+	"quill": ["write", "mark"]
 }
 
 # Game state
@@ -85,8 +181,22 @@ func generate_adventure():
 
 func create_rooms():
 	var room_count = MIN_ROOMS + randi() % 3
-	var room_names = ["Entrance Hall", "Library", "Kitchen", "Bedroom", "Cellar", 
-					  "Garden", "Attic", "Study", "Gallery", "Vault"]
+	var room_names = [
+		# Classic mansion/castle rooms
+		"Entrance Hall", "Grand Library", "Kitchen", "Master Bedroom", "Wine Cellar",
+		"Garden", "Dusty Attic", "Study", "Portrait Gallery", "Vault",
+		# Additional atmospheric rooms
+		"Ballroom", "Conservatory", "Dining Hall", "Servant Quarters", "Tower Room",
+		"Chapel", "Armory", "Trophy Room", "Music Room", "Observatory",
+		"Dungeon", "Secret Passage", "Throne Room", "Alchemy Lab", "Treasure Room",
+		"Crypt", "Underground Cave", "Clock Tower", "Great Hall", "Royal Chambers",
+		"Smithy", "Stables", "Courtyard", "Meditation Chamber", "War Room",
+		"Archive", "Scriptorium", "Torture Chamber", "Training Grounds", "Barracks",
+		"Lighthouse", "Boathouse", "Watchtower", "Bridge", "Gatehouse",
+		"Temple", "Shrine", "Sanctuary", "Cathedral", "Monastery",
+		"Laboratory", "Workshop", "Storage Room", "Pantry", "Laundry",
+		"Bath House", "Spa", "Sauna", "Pool Room", "Gymnasium"
+	]
 	
 	room_names.shuffle()
 	
@@ -127,18 +237,79 @@ func create_rooms():
 
 func generate_room_description(room_name: String) -> String:
 	var descriptions = {
-		"Entrance Hall": "A grand entrance with marble floors and dusty paintings.",
-		"Library": "Shelves filled with ancient books tower around you.",
-		"Kitchen": "An old kitchen with rusty pots and a cold fireplace.",
-		"Bedroom": "A musty bedroom with a canopy bed and broken mirror.",
-		"Cellar": "A damp cellar with wine racks and cobwebs.",
-		"Garden": "An overgrown garden with wilted flowers and a fountain.",
-		"Attic": "A cramped attic filled with old trunks and forgotten memories.",
-		"Study": "A scholar's study with a large desk and scattered papers.",
-		"Gallery": "A long gallery with faded portraits watching you.",
-		"Vault": "A secure vault with thick metal walls."
+		# Classic rooms
+		"Entrance Hall": "A grand entrance with marble floors and dusty paintings on the walls.",
+		"Grand Library": "Towering shelves filled with ancient tomes reach toward the vaulted ceiling.",
+		"Kitchen": "An old kitchen with rusty pots hanging above a cold, ash-filled fireplace.",
+		"Master Bedroom": "A luxurious bedroom with a canopy bed and an ornate broken mirror.",
+		"Wine Cellar": "A damp cellar lined with wine racks, cobwebs covering dusty bottles.",
+		"Garden": "An overgrown garden where wilted flowers surround a crumbling fountain.",
+		"Dusty Attic": "A cramped attic filled with old trunks, forgotten furniture, and thick dust.",
+		"Study": "A scholar's study featuring a large oak desk covered in scattered papers.",
+		"Portrait Gallery": "A long gallery where faded portraits seem to watch your every move.",
+		"Vault": "A secure vault with thick metal walls and a heavy reinforced door.",
+		
+		# Atmospheric rooms
+		"Ballroom": "An elegant ballroom with a crystal chandelier and polished marble floor.",
+		"Conservatory": "A glass-walled room filled with exotic dead plants and broken pots.",
+		"Dining Hall": "A vast dining hall with a long table set for a feast that never came.",
+		"Servant Quarters": "Small, cramped quarters with simple beds and personal belongings.",
+		"Tower Room": "A circular room at the top of a tower with windows facing all directions.",
+		"Chapel": "A small chapel with wooden pews and stained glass windows casting colored light.",
+		"Armory": "Walls lined with ancient weapons and suits of armor standing at attention.",
+		"Trophy Room": "Mounted heads and hunting trophies adorn every available surface.",
+		"Music Room": "A room with a grand piano, harps, and various musical instruments.",
+		"Observatory": "A domed room with a large telescope pointing toward the stars.",
+		
+		# Mysterious rooms
+		"Dungeon": "A dark, dank dungeon with iron bars and chains hanging from the walls.",
+		"Secret Passage": "A narrow hidden corridor with stone walls and a musty smell.",
+		"Throne Room": "A majestic throne room with a golden throne on a raised platform.",
+		"Alchemy Lab": "Strange equipment, bubbling flasks, and mystical symbols cover the benches.",
+		"Treasure Room": "Glittering piles of gold coins and jewels fill this locked chamber.",
+		"Crypt": "Ancient stone sarcophagi line the walls of this underground burial chamber.",
+		"Underground Cave": "A natural cave with stalactites dripping water and bioluminescent moss.",
+		"Clock Tower": "Giant gears and mechanisms surround you, ticking rhythmically.",
+		"Great Hall": "An enormous hall with high ceilings and faded banners hanging from the walls.",
+		"Royal Chambers": "Opulent chambers decorated with gold trim and purple velvet.",
+		
+		# Functional rooms
+		"Smithy": "A workshop with an anvil, forge, and various metalworking tools.",
+		"Stables": "Empty stalls that once housed horses, with hay scattered on the ground.",
+		"Courtyard": "An open-air courtyard with a dried-up fountain and overgrown plants.",
+		"Meditation Chamber": "A peaceful room with cushions, incense holders, and calming symbols.",
+		"War Room": "A strategic planning room with maps, flags, and miniature battlefield models.",
+		"Archive": "Endless shelves of documents, scrolls, and historical records fill this room.",
+		"Scriptorium": "Desks with quills, ink, and half-finished manuscripts cover the workspace.",
+		"Torture Chamber": "A grim room with sinister devices and dark stains on the floor.",
+		"Training Grounds": "An indoor space with practice dummies, targets, and training equipment.",
+		"Barracks": "Rows of simple beds where soldiers once slept between battles.",
+		
+		# Specialized rooms
+		"Lighthouse": "A tall tower room with a massive lamp and windows overlooking the sea.",
+		"Boathouse": "A water-level room with docks and boats bobbing in dark water.",
+		"Watchtower": "A defensive position with arrow slits and a commanding view.",
+		"Bridge": "A covered bridge connecting two sections of the structure.",
+		"Gatehouse": "A fortified entrance with murder holes and a portcullis mechanism.",
+		"Temple": "A sacred space with an altar, offerings, and religious iconography.",
+		"Shrine": "A small devotional space dedicated to a forgotten deity.",
+		"Sanctuary": "A protected holy space with pews and devotional candles.",
+		"Cathedral": "A grand religious space with soaring architecture and colored glass.",
+		"Monastery": "A quiet contemplative space with simple furnishings and scriptures.",
+		
+		# Scientific rooms
+		"Laboratory": "Scientific equipment, beakers, and research notes fill this room.",
+		"Workshop": "A craftsman's workspace with tools, materials, and half-finished projects.",
+		"Storage Room": "Shelves and crates packed with various supplies and equipment.",
+		"Pantry": "A food storage room with shelves of preserved goods and dried herbs.",
+		"Laundry": "Large wash basins, drying racks, and piles of old linens.",
+		"Bath House": "A luxurious bathing area with a large tub and expensive soaps.",
+		"Spa": "A relaxation room with massage tables and aromatic oils.",
+		"Sauna": "A wooden room with benches and a cold stone heating pit.",
+		"Pool Room": "An indoor pool with murky water and decorative tiles.",
+		"Gymnasium": "An exercise space with weights, equipment, and training apparatus."
 	}
-	return descriptions.get(room_name, "A mysterious room.")
+	return descriptions.get(room_name, "A mysterious room filled with shadows and secrets.")
 
 func distribute_items(room_keys: Array):
 	var item_keys = item_uses.keys()
@@ -147,15 +318,48 @@ func distribute_items(room_keys: Array):
 	# Place items in rooms (not in starting or objective room)
 	var placeable_rooms = room_keys.slice(1, room_keys.size() - 1)
 	
-	for i in range(min(3, placeable_rooms.size())):
-		if i < item_keys.size():
+	# Place more items based on room count
+	var num_items = min(5 + randi() % 3, placeable_rooms.size())
+	
+	for i in range(num_items):
+		if i < item_keys.size() and i < placeable_rooms.size():
 			rooms[placeable_rooms[i]]["items"].append(item_keys[i])
 	
-	# Add locked doors (require items)
+	# For find_item objectives, place the target item in a room
+	if objective_type == "find_item":
+		var target_item = objective_target.to_lower().replace(" ", "_")
+		# Place target in a random room (not starting room)
+		var target_room_idx = 1 + randi() % (room_keys.size() - 1)
+		if target_item not in rooms[room_keys[target_room_idx]]["items"]:
+			rooms[room_keys[target_room_idx]]["items"].append(target_item)
+	
+	# Add locked doors (require items to pass)
 	if room_keys.size() > 2:
-		# Lock the path to objective room
-		var lock_room_idx = room_keys.size() - 2
-		rooms[room_keys[lock_room_idx + 1]]["required_item"] = item_keys[0] if item_keys.size() > 0 else "rusty_key"
+		# Lock some paths with required items
+		var num_locks = 1 + randi() % 2  # 1-2 locked passages
+		
+		for lock_idx in range(num_locks):
+			if lock_idx < room_keys.size() - 1:
+				var lock_room_idx = min(2 + lock_idx * 2, room_keys.size() - 2)
+				# Pick a key-type item that exists
+				var key_items = ["rusty_key", "golden_key", "silver_key", "master_key", 
+								 "skeleton_key", "passcode", "id_card", "keycard", "crowbar"]
+				var selected_key = key_items[randi() % key_items.size()]
+				
+				# Make sure the key exists in the world
+				var key_placed = false
+				for room in rooms.values():
+					if selected_key in room["items"]:
+						key_placed = true
+						break
+				
+				# If key not placed yet, add it to an earlier room
+				if not key_placed and lock_room_idx > 0:
+					var key_room_idx = randi() % lock_room_idx
+					rooms[room_keys[key_room_idx]]["items"].append(selected_key)
+				
+				# Set the requirement
+				rooms[room_keys[lock_room_idx + 1]]["required_item"] = selected_key
 
 func test_adventure_completable() -> bool:
 	# Simulate playing through the adventure
@@ -164,9 +368,10 @@ func test_adventure_completable() -> bool:
 	var visited = {}
 	var items_collected = []
 	
-	# Try to reach objective room
+	# Try to reach objective room and complete objective
 	var max_steps = 100
 	var steps = 0
+	var objective_room_found = false
 	
 	while steps < max_steps:
 		steps += 1
@@ -178,9 +383,30 @@ func test_adventure_completable() -> bool:
 				sim_inventory.append(item)
 				items_collected.append(item)
 		
-		# Check if we reached objective
+		# Check if we reached objective room
 		if rooms[sim_current]["has_objective"]:
-			return true
+			objective_room_found = true
+			
+			# Now check if objective can be completed
+			match objective_type:
+				"find_item":
+					# Check if target item is in inventory
+					var target_item = objective_target.to_lower().replace(" ", "_")
+					if target_item in sim_inventory:
+						return true
+				"rescue", "activate", "escape":
+					# Just reaching the room is enough
+					return true
+				"destroy":
+					# Check if we have a weapon or just allow it
+					var has_weapon = false
+					var weapons = ["sword", "hammer", "pickaxe", "crowbar", "staff", "wand"]
+					for weapon in weapons:
+						if weapon in sim_inventory:
+							has_weapon = true
+							break
+					# Allow success even without weapon (simplified)
+					return true
 		
 		# Try to move to unvisited connected rooms
 		var moved = false
@@ -197,7 +423,7 @@ func test_adventure_completable() -> bool:
 				moved = true
 				break
 		
-		# If stuck, try any room we can access
+		# If stuck, try any room we can access (including visited)
 		if not moved:
 			var can_access = false
 			for direction in rooms[sim_current]["connections"]:
@@ -209,8 +435,14 @@ func test_adventure_completable() -> bool:
 					break
 			
 			if not can_access:
+				# Completely stuck, adventure not completable
 				return false
 	
+	# If we found objective room but couldn't complete it
+	if objective_room_found:
+		return false
+	
+	# Couldn't even reach objective room
 	return false
 
 func start_game():
@@ -222,6 +454,10 @@ func start_game():
 			obj_desc = "rescue %s" % objective_target
 		"activate":
 			obj_desc = "activate the %s" % objective_target
+		"destroy":
+			obj_desc = "destroy the %s" % objective_target
+		"escape":
+			obj_desc = "escape from the %s" % objective_target
 	
 	print_output("=== ADVENTURE BEGINS ===\n")
 	print_output("Your objective: %s\n\n" % obj_desc)
@@ -343,16 +579,45 @@ func check_objective():
 	
 	match objective_type:
 		"find_item":
-			if objective_target.to_lower().replace(" ", "_") in inventory:
+			# Check if player has the target item in inventory
+			var target_key = objective_target.to_lower().replace(" ", "_")
+			if target_key in inventory:
 				success = true
-		"rescue", "activate":
-			# Simplified: just being in the room wins
+		"rescue":
+			# Being in the objective room means rescue is successful
+			success = true
+		"activate":
+			# Check if player has necessary items to activate
+			# For activation, just being in room is enough (simplified)
+			success = true
+		"destroy":
+			# Check if player has a weapon or destructive item
+			var destructive_items = ["sword", "hammer", "pickaxe", "crowbar", "staff", "wand"]
+			for item in destructive_items:
+				if item in inventory:
+					success = true
+					break
+			# If no weapon found, still allow success if in objective room
+			if not success:
+				success = true
+		"escape":
+			# For escape objectives, reaching the objective room means finding the exit
 			success = true
 	
 	if success:
 		game_won = true
 		print_output("\n*** CONGRATULATIONS! ***\n")
-		print_output("You completed your objective: %s\n" % objective_target)
+		match objective_type:
+			"find_item":
+				print_output("You found the %s!\n" % objective_target)
+			"rescue":
+				print_output("You successfully rescued %s!\n" % objective_target)
+			"activate":
+				print_output("You activated the %s!\n" % objective_target)
+			"destroy":
+				print_output("You destroyed the %s!\n" % objective_target)
+			"escape":
+				print_output("You escaped from the %s!\n" % objective_target)
 		print_output("You won the adventure!\n")
 
 func print_output(text: String):
@@ -361,3 +626,5 @@ func print_output(text: String):
 	await get_tree().process_frame
 	var scroll = $VBoxContainer/ScrollContainer
 	scroll.scroll_vertical = int(scroll.get_v_scroll_bar().max_value)
+	
+	
